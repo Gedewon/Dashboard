@@ -11,6 +11,7 @@ import {
   CurrencyDollarIcon,
   HomeModernIcon,
 } from "@heroicons/react/24/solid";
+import { Link } from "react-router-dom";
 
 const View: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,7 +23,7 @@ const View: React.FC = () => {
 
   return (
     <div>
-      <MainSection />
+      <MainSection Company={CompanyView} editable />
       <VideoSection />
       <DetailSection />
     </div>
@@ -63,6 +64,25 @@ const SimpleMap: React.FC<{
   );
 };
 
+const CompanyView: React.FC = () => {
+  const { company } = useAppSelector((state) => state.product.value);
+  return (
+    <React.Fragment>
+      <p>{`
+    ${company.address.street} 
+    ${company.address.house}
+    ${company.address.zipCode},
+    ${company.address.city.name},
+    ${company.address.country.name}
+      `}</p>
+      <SimpleMap
+        lat={Number(company.address.latitude)}
+        lng={Number(company.address.longitude)}
+      />
+    </React.Fragment>
+  );
+};
+
 const UserSection: React.FC = () => {
   const { user, company } = useAppSelector((state) => state.product.value);
   return (
@@ -84,22 +104,33 @@ const UserSection: React.FC = () => {
           <p>{company.name}</p>
         </div>
       </div>
-      <p>{`
-    ${company.address.street} 
-    ${company.address.house}
-    ${company.address.zipCode},
-    ${company.address.city.name},
-    ${company.address.country.name}
-      `}</p>
-      <SimpleMap
-        lat={Number(company.address.latitude)}
-        lng={Number(company.address.longitude)}
-      />
     </div>
   );
 };
 
-const MainSection: React.FC = () => {
+interface MainSectionProps {
+  Company?: React.FC;
+  editable?: boolean;
+  Description?: React.FC<{ product: ProductRtn }>;
+  children?: React.ReactNode;
+}
+
+const DefaultDescription: React.FC<{ product: ProductRtn }> = ({ product }) => {
+  return (
+    <div>
+      {" "}
+      <h2 className="card-title">{product.name}</h2>
+      <div dangerouslySetInnerHTML={{ __html: product.description }} />
+    </div>
+  );
+};
+
+export const MainSection: React.FC<MainSectionProps> = ({
+  Company,
+  editable = false,
+  Description = DefaultDescription,
+  children,
+}) => {
   const product = useAppSelector((state) => state.product.value);
   return (
     <div className="card lg:card-side bg-base-100 shadow-xl  rounded-md border border-gray-300 m-6">
@@ -110,12 +141,17 @@ const MainSection: React.FC = () => {
           src={product.picture}
           alt={product.name}
         />
-        <h2 className="card-title">{product.name}</h2>
-        <div dangerouslySetInnerHTML={{ __html: product.description }} />
+        {children ?? <Description product={product} />}
       </div>
       <div className="w-full md:w-1/2">
         <UserSection />
+        {Company && <Company />}
       </div>
+      {editable && (
+        <Link to="/product/edit">
+          <button className="btn btn-primary">Edit</button>
+        </Link>
+      )}
     </div>
   );
 };
