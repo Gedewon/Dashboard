@@ -132,6 +132,9 @@ export const MainSection: React.FC<MainSectionProps> = ({
   children,
 }) => {
   const product = useAppSelector((state) => state.product.value);
+  const hasUserSection = useAppSelector(
+    (state) => state.whiteLabel.hasUserSection
+  );
   return (
     <div className="card lg:card-side bg-base-100 shadow-xl  rounded-md border border-gray-300 m-6">
       <div className="card-body  w-full md:w-2/3">
@@ -144,7 +147,7 @@ export const MainSection: React.FC<MainSectionProps> = ({
         {children ?? <Description product={product} />}
       </div>
       <div className="w-full md:w-1/2">
-        <UserSection />
+        {hasUserSection && <UserSection />}
         {Company && <Company />}
       </div>
       {editable && (
