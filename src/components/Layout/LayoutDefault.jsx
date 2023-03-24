@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 type LayoutDefaultProps = {
   children: React.ReactNode,
@@ -6,9 +7,9 @@ type LayoutDefaultProps = {
 
 const LayoutDefault: React.FC<LayoutDefaultProps> = ({ children }) => {
   return (
-    <div>
+    <div className="relative">
       <Header />
-      {children}
+      <div className="mb-64">{children}</div>
       <Footer />
     </div>
   );
@@ -34,6 +35,26 @@ const Header: React.FC = () => {
             />
           </div>
         </div>
+        <div>
+          <Link
+            to={"/"}
+            className="btn btn-ghost btn-sm rounded-btn text-white"
+          >
+            Home
+          </Link>
+          <Link
+            to={"/product"}
+            className="btn btn-ghost btn-sm rounded-btn text-white"
+          >
+            product view
+          </Link>
+          <Link
+            to={"/product/edit"}
+            className="btn btn-ghost btn-sm rounded-btn text-white"
+          >
+            product edit
+          </Link>
+        </div>
       </div>
     </header>
   );
@@ -41,7 +62,7 @@ const Header: React.FC = () => {
 
 const Footer: React.FC = () => {
   return (
-    <footer className="footer footer-center p-10 bg-blue-900 text-primary-content">
+    <footer className="footer footer-center p-10 bg-blue-900 text-primary-content fixed  bottom-0 -z-30">
       <div>
         <img
           alt="Innoloft"
