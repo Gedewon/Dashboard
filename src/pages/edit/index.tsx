@@ -11,10 +11,12 @@ const Edit: React.FC = () => {
   const [description, setDescription] = React.useState<string>(
     product.description
   );
-
+  const [video, setVideo] = React.useState<string>(product.video);
   const handleCancel = () => {
     setTitle(product.name);
     setDescription(product.description);
+    setVideo(product.video);
+    window.history.back();
   };
 
   const handleSave = () => {
@@ -22,6 +24,7 @@ const Edit: React.FC = () => {
       ...product,
       name: title,
       description: description,
+      video: video,
     };
     dispatch(saveProductAsync(newProduct));
   };
@@ -48,7 +51,18 @@ const Edit: React.FC = () => {
             Cancel
           </button>
         </div>
+        <div></div>
       </MainSection>
+      <div className="card  bg-base-100 shadow-xl justify-center w-max-fit rounded-md border border-gray-300 m-6">
+        <div className="card-body">
+          <h2 className="card-title">Video</h2>
+          <input
+            type={"text"}
+            value={video}
+            onChange={(e) => setVideo(e.target.value)}
+          />
+        </div>
+      </div>
     </div>
   );
 };
