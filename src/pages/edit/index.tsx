@@ -11,6 +11,7 @@ const Edit: React.FC = () => {
   const [description, setDescription] = React.useState<string>(
     product.description
   );
+
   const [video, setVideo] = React.useState<string>(product.video);
   const handleCancel = () => {
     setTitle(product.name);
