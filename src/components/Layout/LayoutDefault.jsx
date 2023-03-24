@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 
 type LayoutDefaultProps = {
   children: React.ReactNode,
@@ -16,9 +17,10 @@ const LayoutDefault: React.FC<LayoutDefaultProps> = ({ children }) => {
 };
 
 const Header: React.FC = () => {
+  const mainColor = useAppSelector((state) => state.whiteLabel.mainColor);
   return (
     <header>
-      <div className="navbar bg-blue-900">
+      <div className={`navbar bg-[${mainColor}]`}>
         <div className="flex-1">
           <img
             alt="Innoloft"

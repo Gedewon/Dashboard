@@ -1,8 +1,10 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import productSlice from "../features/product/productSlice";
+import whiteLabelSlice from "../features/whitelabel/whitelabelSlice";
 export const store = configureStore({
   reducer: {
     product: productSlice,
+    whiteLabel: whiteLabelSlice,
   },
 });
 
